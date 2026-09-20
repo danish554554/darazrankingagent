@@ -78,8 +78,29 @@ flutter run
 
 ---
 
-## ☁️ Future Deployment (Supabase / Render / Vercel)
+## ☁️ Deploying Backend to Render (Step-by-Step)
 
-The backend code is already prepared for production migration:
-* **Database**: Set the `DATABASE_URL` environment variable to your Supabase PostgreSQL connection URI (`postgresql://postgres:[password]@db...supabase.co:5432/postgres`). SQLAlchemy will connect to Postgres automatically without code changes.
-* **Server Hosting**: You can deploy the `backend/` folder to **Render**, **Railway**, or a cloud VPS with Docker. Playwright requires Chromium, which is already configured in the dependencies.
+This repository includes a `render.yaml` blueprint and a Docker configuration that automatically bundles Chromium and all Linux graphics libraries for Playwright.
+
+### Option A: Using Render Blueprints (Recommended)
+1. Go to [dashboard.render.com](https://dashboard.render.com/) and sign in.
+2. Click **New +** -> **Blueprint**.
+3. Connect your GitHub repository: `danish554554/darazrankingagent`.
+4. Render will read `render.yaml` and set up the **`daraz-rank-backend`** Docker service automatically.
+5. Click **Apply**. Render will build the Docker container and start your API!
+
+### Option B: Manual Web Service Setup
+1. On Render, click **New +** -> **Web Service**.
+2. Select repository `danish554554/darazrankingagent`.
+3. Configure settings:
+   - **Name**: `daraz-rank-backend`
+   - **Region**: Frankfurt / Singapore / Oregon (any)
+   - **Root Directory**: Leave blank (or `backend`)
+   - **Runtime**: **Docker**
+   - **Dockerfile Path**: `backend/Dockerfile`
+   - **Docker Context**: `backend`
+   - **Instance Type**: Free or Starter
+4. Click **Create Web Service**.
+
+Once deployed, Render will provide your public URL (e.g. `https://daraz-rank-backend.onrender.com`).
+Enter this URL in the Flutter mobile app's **Settings (Gear Icon)** and you're good to go anywhere in the world!
